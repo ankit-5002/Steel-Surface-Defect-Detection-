@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Steel Defect Detection</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f5f5f5;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding-top: 50px;
+    }
+    .container {
+      max-width: 600px;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .btn-custom {
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+    }
+    .result-image {
+      margin-top: 20px;
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    h3.prediction {
+      margin-top: 20px;
+      font-size: 1.5rem;
+      color: #28a745;
+    }
+    #loadingSpinner, #progressBar {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container text-center">
+    <h2 class="mb-4">Steel Surface Defect Detection</h2>
+
+    <form method="POST" enctype="multipart/form-data" onsubmit="showLoading()">
+      <div class="mb-3">
+        <input class="form-control" type="file" name="image" accept="image/*" required>
+      </div>
+      <button type="submit" class="btn btn-custom btn-lg">Predict Defect</button>
+    </form>
+
+    <!-- Spinner -->
+    <div id="loadingSpinner" class="mt-4">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Predicting...</span>
+      </div>
+      <p class="mt-2">Analyzing the image, please wait...</p>
+    </div>
+
+    <!-- Progress bar -->
+    <div id="progressBar" class="progress mt-3" style="height: 25px;">
+      <div class="progress-bar progress-bar-striped progress-bar-animated bg-info"
+           role="progressbar" style="width: 100%">Processing</div>
+    </div>
+
+    {% if prediction %}
+      <h3 class="prediction">Prediction: {{ prediction }}</h3>
+      <img src="{{ image_path }}" class="result-image" alt="Uploaded Image">
+    {% endif %}
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Spinner control JS -->
+  <script>
+    function showLoading() {
+      document.getElementById("loadingSpinner").style.display = "block";
+      document.getElementById("progressBar").style.display = "block";
+    }
+  </script>
+</body>
+</html>
